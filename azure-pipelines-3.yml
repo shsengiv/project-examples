@@ -1,0 +1,44 @@
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: JFrogMaven@1
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'install'
+    artifactoryResolverService: 'JFrog'
+    targetResolveReleaseRepo: 'vigneshs-libs-release'
+    targetResolveSnapshotRepo: 'vigneshs-libs-snapshot'
+    artifactoryDeployService: 'JFrog'
+    targetDeployReleaseRepo: 'vigneshs-libs-release'
+    targetDeploySnapshotRepo: 'vigneshs-libs-snapshot'
+    collectBuildInfo: true
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    javaHomeOption: 'JDKVersion'
+
+- task: JFrogPublishBuildInfo@1
+  inputs:
+    artifactoryConnection: 'JFrog'
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+
+- task: JFrogBuildPromotion@1
+  inputs:
+    artifactoryConnection: 'JFrog'
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    targetRepo: 'cleanup-libs-snapshot-local'
+    status: 'Released'
+    sourceRepo: 'vigneshs-libs-snapshot-local'
+    includeDependencies: false
+    copy: false
+    dryRun: false
