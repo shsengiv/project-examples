@@ -39,6 +39,6 @@ steps:
     targetRepo: 'cleanup-policy-libs-snapshot-local'
     status: 'Released'
     sourceRepo: 'vigneshs-libs-snapshot-local'
-    includeDependencies: true
+    includeDependencies: false
     copy: false
     dryRun: false
