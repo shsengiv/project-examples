@@ -10,22 +10,23 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: ArtifactoryMaven@2
+- task: JFrogMaven@1
   inputs:
-    mavenPomFile: 'maven-examples/maven-example/pom.xml'
-    goals: 'clean install -e'
-    artifactoryResolverService: 'Artifactory'
+    mavenPomFile: 'pom.xml'
+    goals: 'install'
+    artifactoryResolverService: 'JFrog'
     targetResolveReleaseRepo: 'aemo-libs-release'
     targetResolveSnapshotRepo: 'aemo-libs-snapshot'
-    artifactoryDeployService: 'Artifactory'
+    artifactoryDeployService: 'JFrog'
     targetDeployReleaseRepo: 'aemo-libs-release'
     targetDeploySnapshotRepo: 'aemo-libs-snapshot'
     collectBuildInfo: true
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
+    javaHomeOption: 'JDKVersion'
 
-- task: ArtifactoryPublishBuildInfo@1
+- task: JFrogPublishBuildInfo@1
   inputs:
-    artifactoryService: 'Artifactory'
+    artifactoryConnection: 'JFrog'
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
