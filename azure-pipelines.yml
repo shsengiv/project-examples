@@ -12,7 +12,7 @@ pool:
 steps:
 - task: ArtifactoryMaven@2
   inputs:
-    mavenPomFile: 'pom.xml'
+    mavenPomFile: 'maven-examples/maven-example/pom.xml'
     goals: 'install'
     artifactoryResolverService: 'Artifactory'
     targetResolveReleaseRepo: 'vigneshs-libs-release'
