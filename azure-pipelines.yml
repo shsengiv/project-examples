@@ -13,7 +13,7 @@ steps:
 - task: ArtifactoryMaven@2
   inputs:
     mavenPomFile: 'maven-examples/maven-example/pom.xml'
-    goals: 'install'
+    goals: 'clean install -e'
     artifactoryResolverService: 'Artifactory'
     targetResolveReleaseRepo: 'aemo-libs-release'
     targetResolveSnapshotRepo: 'aemo-libs-snapshot'
