@@ -12,15 +12,18 @@ pool:
 steps:
 - task: JFrogMaven@1
   inputs:
-    mavenPomFile: 'maven-examples/maven-example/pom.xml'
+    mavenPomFile: 'pom.xml'
     goals: 'install'
     artifactoryResolverService: 'JFrog'
     targetResolveReleaseRepo: 'aemo-libs-release'
     targetResolveSnapshotRepo: 'aemo-libs-snapshot'
-    projectKey: 'vigneshs-dev'
-    collectBuildInfo: true
+    artifactoryDeployService: 'JFrog'
+    targetDeployReleaseRepo: 'vigneshs-libs-release'
+    targetDeploySnapshotRepo: 'vigneshs-libs-snapshot'
+    collectBuildInfo: false
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
+    projectKey: 'vigneshs-dev'
     javaHomeOption: 'JDKVersion'
 
 - task: JFrogPublishBuildInfo@1
