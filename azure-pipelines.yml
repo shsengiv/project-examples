@@ -12,11 +12,14 @@ pool:
 steps:
 - task: JFrogMaven@1
   inputs:
-    mavenPomFile: 'maven-examples/maven-example/pom.xml'
+    mavenPomFile: 'pom.xml'
     goals: 'install'
     artifactoryResolverService: 'JFrog'
     targetResolveReleaseRepo: 'aemo-libs-release'
     targetResolveSnapshotRepo: 'aemo-libs-snapshot'
+    artifactoryDeployService: 'JFrog'
+    targetDeployReleaseRepo: 'aemo-libs-release'
+    targetDeploySnapshotRepo: 'aemo-libs-snapshot'
     collectBuildInfo: true
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
