@@ -41,7 +41,7 @@ steps:
     projectKey: 'vigneshs-dev'
     targetRepo: 'vigneshs-libs-snapshot-local'
     status: 'Released'
-    sourceRepo: 'aemo'
+    sourceRepo: 'aemo-libs-snapshot-local'
     includeDependencies: false
     copy: true
     dryRun: false
