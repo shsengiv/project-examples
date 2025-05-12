@@ -30,3 +30,16 @@ steps:
     artifactoryConnection: 'JFrog'
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
+
+- task: JFrogBuildPromotion@1
+  inputs:
+    artifactoryConnection: 'JFrog'
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    projectKey: 'dev'
+    targetRepo: 'cleanup-libs-release-local'
+    status: 'Released'
+    sourceRepo: 'vigneshs-libs-release-local'
+    includeDependencies: false
+    copy: false
+    dryRun: false
