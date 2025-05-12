@@ -18,9 +18,9 @@ steps:
     targetResolveReleaseRepo: 'aemo-libs-release'
     targetResolveSnapshotRepo: 'aemo-libs-snapshot'
     artifactoryDeployService: 'JFrog'
-    targetDeployReleaseRepo: 'vigneshs-libs-release'
-    targetDeploySnapshotRepo: 'vigneshs-libs-snapshot'
-    collectBuildInfo: false
+    targetDeployReleaseRepo: 'aemo-libs-release'
+    targetDeploySnapshotRepo: 'aemo-libs-snapshot'
+    collectBuildInfo: true
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
     projectKey: 'vigneshs-dev'
@@ -32,3 +32,16 @@ steps:
     projectKey: 'vigneshs-dev'
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
+
+- task: JFrogBuildPromotion@1
+  inputs:
+    artifactoryConnection: 'JFrog'
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    projectKey: 'vigneshs-dev'
+    targetRepo: 'vigneshs-libs-snapshot-local'
+    status: 'Released'
+    sourceRepo: 'aemo'
+    includeDependencies: false
+    copy: true
+    dryRun: false
