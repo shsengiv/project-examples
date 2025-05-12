@@ -36,9 +36,9 @@ steps:
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
     projectKey: 'vigneshs-dev'
-    targetRepo: 'cleanup-libs-release-local'
+    targetRepo: 'cleanup-libs-snapshot-local'
     status: 'Released'
-    sourceRepo: 'vigneshs-libs-release-local'
+    sourceRepo: 'vigneshs-libs-snapshot-local'
     includeDependencies: false
     copy: false
     dryRun: false
