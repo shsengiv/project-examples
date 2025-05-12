@@ -20,7 +20,7 @@ steps:
     artifactoryDeployService: 'JFrog'
     targetDeployReleaseRepo: 'aemo-libs-release'
     targetDeploySnapshotRepo: 'aemo-libs-snapshot'
-    collectBuildInfo: true
+    collectBuildInfo: false
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
     javaHomeOption: 'JDKVersion'
