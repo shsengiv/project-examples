@@ -17,10 +17,7 @@ steps:
     artifactoryResolverService: 'JFrog'
     targetResolveReleaseRepo: 'vigneshs-libs-release'
     targetResolveSnapshotRepo: 'vigneshs-libs-snapshot'
-    artifactoryDeployService: 'JFrog'
-    targetDeployReleaseRepo: 'vigneshs-libs-release'
-    targetDeploySnapshotRepo: 'vigneshs-libs-snapshot'
-    collectBuildInfo: true
+    collectBuildInfo: false
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
     javaHomeOption: 'JDKVersion'
