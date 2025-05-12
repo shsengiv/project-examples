@@ -18,7 +18,7 @@ steps:
     targetResolveReleaseRepo: 'aemo-libs-release'
     targetResolveSnapshotRepo: 'aemo-libs-snapshot'
     projectKey: 'vigneshs-dev'
-    collectBuildInfo: false
+    collectBuildInfo: true
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
     javaHomeOption: 'JDKVersion'
