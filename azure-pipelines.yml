@@ -17,9 +17,6 @@ steps:
     artifactoryResolverService: 'JFrog'
     targetResolveReleaseRepo: 'aemo-libs-release'
     targetResolveSnapshotRepo: 'aemo-libs-snapshot'
-    artifactoryDeployService: 'JFrog'
-    targetDeployReleaseRepo: 'aemo-libs-release'
-    targetDeploySnapshotRepo: 'aemo-libs-snapshot'
     collectBuildInfo: true
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
