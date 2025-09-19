@@ -34,9 +34,8 @@ stages:
       inputs:
         artifactoryConnection: vigneshs
         cliInstallationRepo: jfrog-cli-v2
-        installCustomVersion: true
-        cliVersion: 2.77.0
-      displayName: Install JFrog CLI v2.77.0
+
+      displayName: Install JFrog CLI
 
     - task: PowerShell@2
       displayName: Install curl dev tools and R
