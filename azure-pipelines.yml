@@ -30,13 +30,6 @@ stages:
         echo "See https://aka.ms/yaml"
       displayName: 'Run a multi-line script'
 
-    - task: JFrogToolsInstaller@1
-      inputs:
-        artifactoryConnection: cli
-        cliInstallationRepo: jfrog-cli
-
-      displayName: Install JFrog CLI
-
     - task: PowerShell@2
       displayName: Install curl dev tools and R
       inputs:
