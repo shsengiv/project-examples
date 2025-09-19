@@ -9,40 +9,45 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
-
-variables:
-- group: cran
-- name: jfrog_cli_temp_dir
-  value: $(Pipeline.Workspace)/jfrog-tmp
 parameters:
 - name: artifactoryServiceConnection
   type: string
-  default: sample-pipeline-service-v2
+  default: vigneshs
 - name: artifactoryPlatformOIDCServiceConnection
   type: string
-  default: sample-platform-oidc-v2
+  default: vigneshs
+
 stages:
 - stage: __default
   jobs:
   - job: Job
     steps:
-    - task: PowerShell@2
-      displayName: Create JFROG_CLI_TEMP_DIR for newer versions of the JFrog CLI (>=1.39.5) as work around for error when it can not find the temp directory.
-      inputs:
-        targetType: inline
-        script: "\nif (!(Test-Path $(jfrog_cli_temp_dir)))\n{\n  if($PSVersionTable.PSVersion.Major -eq '7'){\n    mkdir -p $(jfrog_cli_temp_dir)\n  } else {\n    mkdir -Path $(jfrog_cli_temp_dir)\n  }          \n}\n\nWrite-Host \"$(jfrog_cli_temp_dir) now confirmed to exist\""
+    - script: echo "Hello, World!"
+      displayName: 'Run a one-line script'
+
+    - script: |
+        echo "Add other tasks to build, test, and deploy your project."
+        echo "See https://aka.ms/yaml"
+      displayName: 'Run a multi-line script'
+    
+    # This task is removed as it relies on the jfrog_cli_temp_dir variable
+    # - task: PowerShell@2
+    #   displayName: Create JFROG_CLI_TEMP_DIR for JFrog CLI
+    #   inputs:
+    #     targetType: inline
+    #     script: |
+    #       if (!(Test-Path $(jfrog_cli_temp_dir))) {
+    #         if($PSVersionTable.PSVersion.Major -eq '7') {
+    #           mkdir -p $(jfrog_cli_temp_dir)
+    #         } else {
+    #           mkdir -Path $(jfrog_cli_temp_dir)
+    #         }
+    #       }
+    #       Write-Host "$(jfrog_cli_temp_dir) now confirmed to exist"
     
     - task: JFrogToolsInstaller@1
       inputs:
-        artifactoryConnection: sample-pipeline-service-v2
+        artifactoryConnection: vigneshs
         cliInstallationRepo: jfrog-cli-v2
         installCustomVersion: true
         cliVersion: 2.77.0
@@ -62,7 +67,6 @@ stages:
         script: sudo chmod -R 777 /usr/local/lib/R
         pwsh: true
     
-    # Corrected step: Use JFrog CLI to configure and perform actions
     - task: CmdLine@2
       name: jfStep
       displayName: Configure JFrog CLI with OIDC token and ping Artifactory
@@ -80,7 +84,6 @@ stages:
           echo "OIDC Token: $(oidc_token)"
         pwsh: true
     
-    # Corrected step: Create R script with correct repository URL and auth header
     - task: PowerShell@2
       displayName: Create CRAN download script
       inputs:
@@ -88,26 +91,22 @@ stages:
         script: |
           $rscript = @'
             #!/usr/bin/env Rscript
-
             local({
                 r <- list("cran-remote" = "http://localhost:8081/artifactory/cran-remote/")
                 options(repos = r)
             })
-
-            # Headers for authentication are passed via the curl command, not in install.packages
             install.packages("ps", lib = "/usr/local/lib/R/site-library", repos = "http://localhost:8081/artifactory/cran-remote/")
             quit(status=0)
           '@
           Set-Content -Path './install_from_cran_remote.r' -Value $rscript
         pwsh: true
     
-    # Corrected step: Use curl to download the package with the OIDC token
     - task: CmdLine@2
-      displayName: Install ps from CRAN remote with curl and Rscript
+      displayName: Install ps from CRAN remote
       continueOnError: true
       inputs:
         script: |
-          Rscript install_from_cran_remote.r --args "--headers" "X-JFrog-Art-Api: $(oidc_token)"
+          Rscript install_from_cran_remote.r
     
     - task: CmdLine@2
       displayName: Show R site-library
