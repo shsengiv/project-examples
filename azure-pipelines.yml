@@ -43,14 +43,11 @@ stages:
         targetType: inline
         script: sudo chmod -R 777 /usr/local/lib/R
         pwsh: true
-
-    - task: CmdLine@2
-      name: jfStep
+    - task: JfrogCliV2@1
       displayName: Configure JFrog CLI with OIDC token and ping Artifactory
       inputs:
-        script: |
-          jf rt curl -XGET "api/v1/ping"
-          echo "##vso[task.setvariable variable=oidc_token]$env:JF_OIDC_TOKEN"
+        jfrogPlatformConnection: 'jfrog-cli'
+        command: 'jf rt curl -XGET "api/v1/ping"'
 
     - task: PowerShell@2
       displayName: Show OIDC details
