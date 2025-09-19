@@ -32,8 +32,8 @@ stages:
 
     - task: JFrogToolsInstaller@1
       inputs:
-        artifactoryConnection: vigneshs
-        cliInstallationRepo: jfrog-cli-v2
+        artifactoryConnection: cli
+        cliInstallationRepo: jfrog-cli
 
       displayName: Install JFrog CLI
 
