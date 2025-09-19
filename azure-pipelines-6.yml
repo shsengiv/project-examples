@@ -45,13 +45,18 @@ stages:
     #       }
     #       Write-Host "$(jfrog_cli_temp_dir) now confirmed to exist"
     
-    - task: JFrogToolsInstaller@1
+    - task: JfrogCliV2@1
+      name: jfStep
       inputs:
-        artifactoryConnection: vigneshs
-        cliInstallationRepo: jfrog-cli-v2
-        installCustomVersion: true
-        cliVersion: 2.77.0
-      displayName: Install JFrog CLI v2.77.0
+        jfrogPlatformConnection: 'vigneshs'
+        command: 'jf rt ping'
+
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo "OIDC Username: $($jfStep.oidc_user)"
+          echo "OIDC Token: $env:oidc_token"
     
     - task: PowerShell@2
       displayName: Install curl dev tools and R
@@ -66,14 +71,6 @@ stages:
         targetType: inline
         script: sudo chmod -R 777 /usr/local/lib/R
         pwsh: true
-    
-    - task: CmdLine@2
-      name: jfStep
-      displayName: Configure JFrog CLI with OIDC token and ping Artifactory
-      inputs:
-        script: |
-          jf rt curl -XGET "api/v1/ping"
-          echo "##vso[task.setvariable variable=oidc_token]$env:JF_OIDC_TOKEN"
     
     - task: PowerShell@2
       displayName: Show OIDC details
